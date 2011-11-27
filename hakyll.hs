@@ -27,8 +27,8 @@ main = hakyll $ do
 
     match "index.html" $ route idRoute
     create "index.html" $ constA mempty
-        >>> arr (setField "title" "Index")
-        >>> requireAllA "posts/*" (id *** arr (take 3 . reverse . sortByBaseName) >>> addPostList)
+        >>> arr (setField "title" "Recent posts")
+        >>> requireAllA "posts/*" (id *** arr (take 10 . reverse . sortByBaseName) >>> addPostList)
         >>> applyTemplateCompiler "templates/index.html"
         >>> applyTemplateCompiler "templates/default.html"
         >>> relativizeUrlsCompiler
