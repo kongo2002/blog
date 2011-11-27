@@ -2,6 +2,7 @@
 title: Clean your system with udept
 author: Gregor Uhlenheuer
 tags: linux, vim, programming
+date: 2007-12-20
 ---
 
 From time to time it can be very useful to check all of the installed packages

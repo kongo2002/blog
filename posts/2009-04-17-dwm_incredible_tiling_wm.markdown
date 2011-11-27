@@ -2,6 +2,7 @@
 title: dwm - incredible tiling wm
 tags: gentoo, linux, wm, desktop
 author: Gregor Uhlenheuer
+date: 2009-04-17
 ---
 
 I just want to present my new window manager: [dwm][1]
