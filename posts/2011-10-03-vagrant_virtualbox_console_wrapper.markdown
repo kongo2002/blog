@@ -14,12 +14,12 @@ development environments. It is even possible to package already configured
 environments for deployment so other developers can recreate the virtual
 machine with just a few commands.
 
-# Installation
+## Installation
 
 To get you going as quickly as possible I am shortly describing with steps you
 have to do to install Vagrant on your system.
 
-## Ruby and RubyGems
+### Ruby and RubyGems
 
 Vagrant is written in Ruby and published as a RubyGem – so you have to install
 Ruby and RubyGems_ at first. In my case on Gentoo Linux this is nothing more
@@ -27,7 +27,7 @@ than running:
 
     $ emerge -av ruby rubygems
 
-## VirtualBox
+### VirtualBox
 
 Since Vagrant is utilizing VirtualBox you have to install that one of course.
 VirtualBox is an open-source full virtualizer for x86 hardware and runs on
@@ -61,7 +61,7 @@ the necessary virtualbox kernel modules:
 Instead of manually starting the virtualbox kernel modules every time you can
 also autoload them by modifying the `/etc/conf.d/modules` file accordingly.
 
-## Vagrant
+### Vagrant
 
 Once this is done all requirements are set you can go ahead and install Vagrant
 itself:
@@ -75,7 +75,7 @@ default. In this case you would have to unset the variable beforehand:
     $ unset RUBYOPT
     $ gem install vagrant
 
-## Virtual environment box
+### Virtual environment box
 
 Now that Vagrant is installed you are able to fetch a prebuilt virtual machine
 image (called "box") and build a new development environment based on that:
