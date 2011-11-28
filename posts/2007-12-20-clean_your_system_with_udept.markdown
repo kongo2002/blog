@@ -24,10 +24,7 @@ it’s worth testing
 Some useful commands:
 ---------------------
 
-~~~ {.bash}
-
     dep -dp                (depclean-mode with pretend-flag)
     dep -L <package-name>  (reverse dependencies from <package-name>)
     dep -l <package-name>  (dependencies from <package-name>)
     dep -Ln <package-name> (reverse dependencies (+uninstalled) from <package-name>)
-~~~

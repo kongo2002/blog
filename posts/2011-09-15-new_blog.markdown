@@ -1,0 +1,19 @@
+---
+tags: blog, python
+title: New blog engine
+author: Gregor Uhlenheuer
+date: 2011-09-15
+summary: Once in a while it's time for a new blog (engine)
+---
+It's time for a new blog - and this time I chosed a static content blog engine.
+The engine is called rstblog and is written by Armin Ronacher who is known for
+great python libraries like [werkzeug][1] and [flask][2].
+
+I just merged all posts of my old wordpress blog into the `rst` [^1] format the
+pages of the [rstblog][3] are built of.
+
+[1]: http://werkzeug.pocoo.org
+[2]: http://flask.pocoo.org
+[3]: https://github.com/mitsuhiko/rstblog
+
+[^1]: reStructured Text

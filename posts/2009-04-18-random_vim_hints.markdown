@@ -32,7 +32,7 @@ the search string contains uppercase characters.
 
 The next one is a quick way to convert tabs into space characters:
 
-~~~ {.vim}
+~~~{.vim .numberLines}
 :set expandtab
 :retab!
 ~~~
