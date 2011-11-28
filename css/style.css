@@ -180,33 +180,34 @@ td, th {
     border: 1px solid #ddd;
 }
 
-a.footnote-reference {
+div.footnotes {
     vertical-align: top;
-    font-size: 0.75em;
-}
-
-table.footnote {
-    margin: 15px 0;
-    background: transparent;
-    border: none;
-}
-
-table.footnote td {
-    border: none;
-    padding: 9px 0 0 0;
     font-size: 0.8em;
 }
 
-table.footnote td.label {
-    padding-right: 10px;
+div.footnotes hr {
+    color: #ddd;
+    background-color: #ddd;
+    margin-left: 0px;
+    text-align: left;
+    width: 40%;
 }
 
-table.footnote td p {
-    margin: 0;
+div.footnotes a.footnoteBackLink {
+    text-decoration: none;
 }
 
-table.footnote td p + p {
-    margin-top: 15px;
+div.footnotes ol {
+    font-size: 0.9em;
+}
+
+sup {
+    font-size: 0.8em;
+}
+
+sup a {
+    text-decoration: none;
+    background: #eee;
 }
 
 div.entry-overview {
