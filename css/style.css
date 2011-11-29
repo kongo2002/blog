@@ -252,18 +252,18 @@ div.postitem div.date abbr {
     text-transform: none;
 }
 
-img.align-center {
+div.figure {
+    text-align: center;
+    font-size: 1.2em;
+    margin: 20px 30px;
+}
+
+div.figure img {
     margin: 15px auto;
     display: block;
     background: #fafafa;
     padding: 10px;
     border: 1px solid #ddd;
-}
-
-div.centerblock {
-    text-align: center;
-    font-size: 1.2em;
-    margin: 20px 30px;
 }
 
 div.pagination {
