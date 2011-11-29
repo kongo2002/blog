@@ -153,9 +153,14 @@ p.caption {
     font-size: 0.7em;
 }
 
-h1 + p.date {
-    margin-top: -28px;
+p.subtitle {
+    color: #aba098;
+    margin-top: -25px;
     font-style: italic;
+}
+
+p.subtitle span.date {
+    font-weight: bold;
 }
 
 pre, code, tt {
@@ -195,10 +200,17 @@ div.footnotes hr {
 
 div.footnotes a.footnoteBackLink {
     text-decoration: none;
+    margin-left: 5px;
 }
 
 div.footnotes ol {
     font-size: 0.9em;
+}
+
+div.footnotes code {
+    font-family: inherit;
+    background: inherit;
+    font-size: inherit;
 }
 
 sup {
@@ -210,43 +222,35 @@ sup a {
     background: #eee;
 }
 
-div.entry-overview {
+div.postitem {
     margin: 25px 0;
 }
 
-div.entry-overview h1,
-div.entry-overview div.summary,
-div.entry-overview div.summary p {
+div.postitem h1,
+div.postitem div.summary {
     line-height: 25px;
 }
 
-div.entry-overview h1 {
+div.postitem h1 {
     margin: 0;
     font-size: 1.2em;
 }
 
-div.entry-overview div.date,
-div.entry-overview div.summary,
-div.entry-overview div.summary p {
+div.postitem div.date,
+div.postitem div.summary,
+div.postitem div.summary p {
     margin: 0;
     padding: 0;
 }
 
-div.entry-overview div.detail {
-    margin-bottom: 20px;
-}
-
-div.entry-overview div.date {
+div.postitem div.date {
     font-size: 0.9em;
     color: #aba098;
-    font-weight: bold;
     text-transform: uppercase;
 }
 
-div.entry-overview div.date abbr {
-    font-weight: normal;
+div.postitem div.date abbr {
     text-transform: none;
-    margin-left: 10px;
 }
 
 img.align-center {
