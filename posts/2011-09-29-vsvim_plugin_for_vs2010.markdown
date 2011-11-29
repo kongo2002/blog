@@ -17,7 +17,8 @@ used to the incredible editing power you gain when using vim.
 
 The plugin is mainly programmed in F# and C# which makes it additionally
 interesting for me to follow the development. The source code is hosted on
-github_ and now as of version 1.1 it is licensed under the Apache 2.0 license.
+[github][2] and now as of version 1.1 it is licensed under the Apache 2.0
+license.
 
 ![Screenshot of VsVim](/images/vsvim.png)
 
