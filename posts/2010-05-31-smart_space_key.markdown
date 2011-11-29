@@ -2,7 +2,6 @@
 tags: vim, plugin, programming
 title: space.vim - smart space key for vim
 author: Gregor Uhlenheuer
-date: 2010-05-31
 summary: I just happened to stumble over a really nice vim plugin called
          'space.vim' that turns the space key into a clever action key.
 ---

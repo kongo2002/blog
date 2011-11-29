@@ -2,7 +2,6 @@
 tags: programming, erlang
 author: Gregor Uhlenheuer
 title: Starting with Erlang
-date: 2011-10-17
 summary: As part of my current interest in functional programming I took a
          quick look at programming in Erlang.
 ---

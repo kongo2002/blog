@@ -2,7 +2,6 @@
 tags: wpf, xaml, .net
 title: WPF: Use a resource image from XAML
 author: Gregor Uhlenheuer
-date: 2011-10-06
 summary: I always forget how to use a resource image file in a XAML file - here
          is how it's done.
 ---

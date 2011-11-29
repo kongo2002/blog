@@ -1,7 +1,6 @@
 ---
 tags: windows, tools, console
 author: Gregor Uhlenheuer
-date: 2011-10-09
 title: Console2 - the better command prompt
 summary: How to setup console2 to be an awesome cmd.exe replacement.
 ---

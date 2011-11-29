@@ -2,7 +2,6 @@
 tags: c, cpu, profiling, programming
 title: Read time stamp counter in C
 author: Gregor Uhlenheuer
-date: 2010-05-31
 summary: Ever wanted to get hold of the RDTSC? This is how I got it done in C.
 ---
 While searching for a method to benchmark/profile some functions in C I

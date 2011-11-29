@@ -2,7 +2,6 @@
 author: Gregor Uhlenheuer
 tags: linux, vim, programming
 title: Site of the moment: github
-date: 2009-04-18
 summary: Time to get into social coding with git: join github.com
 ---
 

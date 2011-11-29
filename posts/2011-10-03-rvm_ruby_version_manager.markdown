@@ -2,7 +2,6 @@
 tags: gentoo, linux, ruby
 title: RVW - ruby version manager
 author: Gregor Uhlenheuer
-date: 2011-10-03
 summary: RVM is a pretty convenient ruby version manager that enables easy
          management of parallel ruby environments.
 ---

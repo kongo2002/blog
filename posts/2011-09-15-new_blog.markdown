@@ -2,7 +2,6 @@
 tags: blog, python
 title: New blog engine
 author: Gregor Uhlenheuer
-date: 2011-09-15
 summary: Once in a while it's time for a new blog (engine)
 ---
 It's time for a new blog - and this time I chosed a static content blog engine.

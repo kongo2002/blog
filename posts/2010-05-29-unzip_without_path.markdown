@@ -1,7 +1,6 @@
 ---
 tags: linux, console, bash
 author: Gregor Uhlenheuer
-date: 2010-05-29
 title: Unzipping without path structure
 summary: Ever wanted to unzip files from a zip archive without wanting to
          extract the directory structure?

@@ -1,7 +1,6 @@
 ---
 tags: linux, gentoo, console, virtualization
 author: Gregor Uhlenheuer
-date: 2011-10-03
 title: Vagrant - console wrapper for VirtualBox
 summary: Vagrant is a nice and convenient tool to dynamically build
          configurable, lightweight and portable virtual machines using Oracle's

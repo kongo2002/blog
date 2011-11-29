@@ -2,7 +2,6 @@
 tags: f#, .net, programming
 author: Gregor Uhlenheuer
 title: F# - Playing Hangman
-date: 2011-10-18
 summary: Today I tried to program the simple game "Hangman" in F# in order to
          get more comfortable with the functional programming style and with F#
          itself.

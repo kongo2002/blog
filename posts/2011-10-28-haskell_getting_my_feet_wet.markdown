@@ -2,7 +2,6 @@
 tags: programming, haskell
 author: Gregor Uhlenheuer
 title: Haskell - getting my feet wet
-date: 2011-10-28
 summary: Get a small impression about my ongoing learnings on functional
          programming. This time I am looking into Haskell!
 ---

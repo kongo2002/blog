@@ -1,7 +1,6 @@
 ---
 tags: sql, tsql, programming
 author: Gregor Uhlenheuer
-date: 2011-09-24
 title: CSV export in T-SQL
 summary: Because I always forget how to export data from the SQLServer into a
          CSV file I will post it up here.

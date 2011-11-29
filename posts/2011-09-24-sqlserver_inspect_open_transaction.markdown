@@ -1,7 +1,6 @@
 ---
 tags: sql, programming, sqlserver
 author: Gregor Uhlenheuer
-date: 2011-09-24
 title: Inspect an open transaction in SQLServer
 summary: There is a handy command to inspect an open transaction running in a
          Microsoft SQLServer.

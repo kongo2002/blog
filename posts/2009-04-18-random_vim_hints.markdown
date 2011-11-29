@@ -2,7 +2,6 @@
 title: Random vim hints
 tags: linux, vim, programming
 author: Gregor Uhlenheuer
-date: 2009-04-18
 summary: I just picked some random vim stuff you might find useful
 ---
 

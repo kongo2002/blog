@@ -1,7 +1,6 @@
 ---
 author: Gregor Uhlenheuer
 tags: programming, git, vcs
-date: 2011-10-16
 title: Git: Delete a remote tag
 summary: It does not happen that often but in case you want to get rid of a git
          tag on a remote...

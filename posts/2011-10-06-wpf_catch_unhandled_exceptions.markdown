@@ -2,7 +2,6 @@
 tags: c#, .net, wpf
 title: WPF: How to catch unhandled exceptions
 author: Gregor Uhlenheuer
-date: 2011-10-06
 summary: In order to catch unhandled exceptions in WPF applications you are not
          able to hook into the event you are used to in WinForms - now there
          are even two events you can listen to.

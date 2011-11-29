@@ -1,7 +1,6 @@
 ---
 tags: vim, programming
 author: Gregor Uhlenheuer
-date: 2010-05-20
 title: Vim - visual search
 summary: I recently came up with a small function to search for visually selected
          words in vim.

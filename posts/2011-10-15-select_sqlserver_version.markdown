@@ -2,7 +2,6 @@
 tags: tsql, sql, sqlserver
 author: Gregor Uhlenheuer
 title: Determine SQLServer version via query
-date: 2011-10-15
 summary: Here is how you can find out the version of your SQLServer with a
          query.
 ---

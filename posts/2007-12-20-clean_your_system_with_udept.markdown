@@ -2,7 +2,6 @@
 title: Clean your system with udept
 author: Gregor Uhlenheuer
 tags: linux, vim, programming
-date: 2007-12-20
 summary: In order to clean up your portage-installed packages there is a great
          tool called udept
 ---

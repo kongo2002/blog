@@ -2,7 +2,6 @@
 tags: programming, .net, vim
 title: Vim emulator plugin for Visual Studio 2010: VsVim
 author: Gregor Uhlenheuer
-date: 2011-09-29
 summary: For all you vim fanatics who want to have vim-like editing experience
          in your Visual Studio, there is a great solution waiting for you:
          VsVim
