@@ -17,12 +17,11 @@ main = hakyll $ do
         route idRoute
         compile compressCssCompiler
 
-    match "templates/*" $ compile templateCompiler
-
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pageCompiler
             >>> arr (renderDateField "date" "%B %e, %Y" "Date unknown")
+            >>> renderTagsField "posttags" (fromCapture "tags/*")
             >>> applyTemplateCompiler "templates/post.html"
             >>> applyTemplateCompiler "templates/default.html"
             >>> relativizeUrlsCompiler
@@ -36,6 +35,22 @@ main = hakyll $ do
         >>> applyTemplateCompiler "templates/default.html"
         >>> relativizeUrlsCompiler
 
+    match "tags.html" $ route idRoute
+    create "tags.html" $ constA mempty
+        >>> arr (setField "title" "tag cloud")
+        >>> requireA "tags" (setFieldA "tagcloud" (renderTagCloud'))
+        >>> applyTemplateCompiler "templates/tagcloud.html"
+        >>> applyTemplateCompiler "templates/default.html"
+        >>> relativizeUrlsCompiler
+
+    create "tags" $
+        requireAll "posts/*" (\_ ps -> readTags ps :: Tags String)
+
+    match "tags/*" $ route $ setExtension "html"
+    metaCompile $ require_ "tags"
+        >>> arr tagsMap
+        >>> arr (map (\(t, p) -> (tagIdentifier t, makeTagList t p)))
+
     -- All posts page
     match "posts.html" $ route idRoute
     create "posts.html" $ constA mempty
@@ -45,6 +60,15 @@ main = hakyll $ do
         >>> applyTemplateCompiler "templates/default.html"
         >>> relativizeUrlsCompiler
 
+    match "templates/*" $ compile templateCompiler
+
+  where
+    tagIdentifier :: String -> Identifier (Page String)
+    tagIdentifier = fromCapture "tags/*"
+
+    renderTagCloud' :: Compiler (Tags String) String
+    renderTagCloud' = renderTagCloud tagIdentifier 100 120
+
 addPostList :: Compiler (Page String, [Page String]) (Page String)
 addPostList = setFieldA "posts" $
     arr (reverse . sortByBaseName)
@@ -52,3 +76,11 @@ addPostList = setFieldA "posts" $
         >>> arr mconcat
         >>> arr pageBody
 
+makeTagList :: String -> [Page String] -> Compiler () (Page String)
+makeTagList tag posts =
+    constA (mempty, posts)
+        >>> addPostList
+        >>> arr (setField "title" ("Posts tagged '" ++ tag ++ "'"))
+        >>> applyTemplateCompiler "templates/posts.html"
+        >>> applyTemplateCompiler "templates/default.html"
+        >>> relativizeUrlsCompiler
