@@ -3,6 +3,7 @@ title: dwm - incredible tiling wm
 tags: gentoo, linux, wm, desktop
 author: Gregor Uhlenheuer
 date: 2009-04-17
+summary: dwm is a dynamic tiled window manager for X11
 ---
 
 I just want to present my new window manager: [dwm][1]

@@ -3,6 +3,7 @@ tags: linux, x11, gentoo, console
 author: Gregor Uhlenheuer
 date: 2010-05-20
 title: Changing X11 resolution on-the-fly
+summary: Changing X11 resolution on-the-fly without restarting the Xserver
 ---
 
 Since I always seem to forget how to change the X11 resolution without
