@@ -166,11 +166,11 @@ p.subtitle span.date {
 pre, code, tt {
     font-family: 'Consolas', 'Inconsolata', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', 'Monaco', 'Courier New', monospace;
     font-size: 0.85em;
-    background: #eee;
 }
 
 pre {
     border: 1px solid #ddd;
+    background: #eee;
     padding: 10px;
 }
 
@@ -209,7 +209,6 @@ div.footnotes ol {
 
 div.footnotes code {
     font-family: inherit;
-    background: inherit;
     font-size: inherit;
 }
 
