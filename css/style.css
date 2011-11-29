@@ -259,7 +259,7 @@ div.figure {
 }
 
 div.figure img {
-    margin: 15px auto;
+    margin: 15px auto 10px auto;
     display: block;
     background: #fafafa;
     padding: 10px;
