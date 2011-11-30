@@ -9,18 +9,27 @@ import Hakyll
 main :: IO ()
 main = hakyll $ do
 
+    -- Images
     match "images/*" $ do
         route idRoute
         compile copyFileCompiler
 
+    -- Static files
+    match "static/*" $ do
+        route idRoute
+        compile copyFileCompiler
+
+    -- Css styles
     match "css/*" $ do
         route idRoute
         compile compressCssCompiler
 
+    -- Posts
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pageCompiler
             >>> arr (renderDateField "date" "%B %e, %Y" "Date unknown")
+            >>> arr (renderDateField "shortdate" "%Y-%m-%d" "Date unknown")
             >>> renderTagsField "posttags" (fromCapture "tags/*")
             >>> applyTemplateCompiler "templates/post.html"
             >>> applyTemplateCompiler "templates/default.html"
@@ -43,6 +52,7 @@ main = hakyll $ do
         >>> applyTemplateCompiler "templates/default.html"
         >>> relativizeUrlsCompiler
 
+    -- Tags
     create "tags" $
         requireAll "posts/*" (\_ ps -> readTags ps :: Tags String)
 
