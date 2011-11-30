@@ -35,6 +35,13 @@ main = hakyll $ do
             >>> applyTemplateCompiler "templates/default.html"
             >>> relativizeUrlsCompiler
 
+    -- About page
+    match "about.markdown" $ do
+        route $ setExtension "html"
+        compile $ pageCompiler
+            >>> applyTemplateCompiler "templates/default.html"
+            >>> relativizeUrlsCompiler
+
     -- Index page
     match "index.html" $ route idRoute
     create "index.html" $ constA mempty
