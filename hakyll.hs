@@ -36,7 +36,7 @@ main = hakyll $ do
             >>> relativizeUrlsCompiler
 
     -- About page
-    match "about.markdown" $ do
+    match (list [ "about.markdown", "projects.markdown" ]) $ do
         route $ setExtension "html"
         compile $ pageCompiler
             >>> applyTemplateCompiler "templates/default.html"
