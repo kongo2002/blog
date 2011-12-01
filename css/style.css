@@ -190,6 +190,10 @@ div.footnotes {
     font-size: 0.8em;
 }
 
+div.footnotes p {
+    margin: 0;
+}
+
 div.footnotes hr {
     color: #ddd;
     background-color: #ddd;
@@ -213,7 +217,7 @@ div.footnotes code {
 }
 
 sup {
-    font-size: 0.8em;
+    font-size: 0.75em;
 }
 
 sup a {

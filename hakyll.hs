@@ -51,6 +51,7 @@ main = hakyll $ do
         >>> applyTemplateCompiler "templates/default.html"
         >>> relativizeUrlsCompiler
 
+    -- Tag cloud
     match "tags.html" $ route idRoute
     create "tags.html" $ constA mempty
         >>> arr (setField "title" "tag cloud")
