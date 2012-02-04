@@ -1,6 +1,6 @@
 ---
 title: F# - implementing an observable object
-tags: fsharp, programming, .net
+tags: f#, programming, .net, wpf
 author: Gregor Uhlenheuer
 summary: In case you want to have an observable object in F# for example to
          use it in a WPF application this is a convenient way to implement
