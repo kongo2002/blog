@@ -91,3 +91,13 @@ let setComboBoxValues (cb : ComboBox) =
     cb.SelectedIndex <- 0
 ~~~
 
+In case you really want to use a *real* enumeration in F# you have to define
+the discriminated union like this instead:
+
+~~~{ .fsharp }
+let MyRealEnumType =
+    | First = 0
+    | Second = 1
+    | Third = 2
+~~~
+
