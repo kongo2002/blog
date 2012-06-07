@@ -44,3 +44,29 @@ As of now you only have to workarounds to choose from:
 1. Either use a public delegate type
 2. or use an internal delegate in C# code an reference it via
    `InternalsVisibleTo`
+
+In contrast to that the following C# snippet works without any problems:
+
+~~~ {.cs}
+using System;
+using System.Linq.Expressions;
+using System.Reflection;
+
+namespace TestSnippets
+{
+    internal static class ReflectionHelpers
+    {
+        internal delegate object GetterFunc<T>(T element);
+
+        internal static GetterFunc<T> GetGetterFunc<T>(PropertyInfo property)
+        {
+            var inst = Expression.Parameter(property.DeclaringType, "i");
+            var prop = Expression.Property(inst, property);
+            var conv = Expression.Convert(prop, typeof(object));
+
+            return Expression.Lambda<GetterFunc<T>>(conv, inst).Compile();
+        }
+    }
+}
+
+~~~
