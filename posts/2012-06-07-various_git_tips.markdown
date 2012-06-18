@@ -90,7 +90,7 @@ Find a branch that have a particular commit in it:
 
     git branch --contains 7e830ac7
 
-### Mergin, rebasing
+### Merging and rebasing
 
 There is actually one pretty standard use case of rebasing which is to rebase
 your topic branch off the latest version of the master branch. The usual way is
@@ -171,6 +171,14 @@ git checkout -b feature origin/feature
 git checkout -t origin/feature
 git checkout feature
 ~~~
+
+If you want to get the work from a remote branch that you don't want to add
+permanently to your remotes you can add the remote address to the `pull`
+command:
+
+    git checkout -b user
+    git pull 'git://github.com/user/project.git'
+
 
 ## Various tips
 
