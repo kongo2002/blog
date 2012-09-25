@@ -18,8 +18,9 @@ with C, Python, C#, F# and vimscript to name just a few.
 ## Contributions
 
 - [luakit][6] – fast, small, webkit based browser framework extensible by [Lua][7]
-- [uzbl][8] – web interface tools which adhere to the unix philosophy
 - [syntastic][9] – vim syntax checking plugin
+- [ServiceStack][12] - code-first, config/code-gen free, REST+SOAP web services for .NET/mono
+- [uzbl][8] – web interface tools which adhere to the unix philosophy
 - [space.vim][10] – the smart space key plugin for vim
 - [vim][11] – one of the best editors on the planet
 
@@ -34,5 +35,6 @@ with C, Python, C#, F# and vimscript to name just a few.
 [9]: http://github.com/scrooloose/syntastic
 [10]: http://github.com/spiiph/vim-space
 [11]: http://www.vim.org
+[12]: http://github.com/ServiceStack/ServiceStack
 
 [^1]: AutoMod is a graphical simulation software used in manufacturing and distribution operations
