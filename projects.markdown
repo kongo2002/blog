@@ -11,6 +11,7 @@ with C, Python, C#, F# and vimscript to name just a few.
 
 ## Own projects
 
+- [SharpXml][13] - a fast, dependency-free .NET XML serializer written in F#
 - [gskat][2] – a Gtk+ implementation of the popular german card game Skat
 - [automod-vim][3] – vim runtime files for [AutoMod][5] [^1]
 - [fsharp-vim][4] – vim runtime files for F#
@@ -36,5 +37,6 @@ with C, Python, C#, F# and vimscript to name just a few.
 [10]: http://github.com/spiiph/vim-space
 [11]: http://www.vim.org
 [12]: http://github.com/ServiceStack/ServiceStack
+[13]: http://github.com/kongo2002/SharpXml
 
 [^1]: AutoMod is a graphical simulation software used in manufacturing and distribution operations
