@@ -1,30 +1,33 @@
 {-# LANGUAGE OverloadedStrings #-}
-import Control.Arrow ((>>>), (***), arr)
-import Control.Category (id)
-import Data.Monoid (mempty, mconcat)
-import Prelude hiding (id)
+
+import           Prelude hiding (id)
+import           Control.Arrow ((>>>), (***), arr)
+import           Control.Category (id)
+import           Data.Monoid (mempty, mconcat)
+import           Data.List (foldl')
+import qualified Data.Text as T
 
 import Hakyll
 
 main :: IO ()
 main = hakyll $ do
 
-    -- Images
+    -- images
     match "images/*" $ do
         route idRoute
         compile copyFileCompiler
 
-    -- Static files
+    -- static files
     match "static/*" $ do
         route idRoute
         compile copyFileCompiler
 
-    -- Css styles
+    -- css styles
     match "css/*" $ do
         route idRoute
         compile compressCssCompiler
 
-    -- Posts
+    -- posts
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pageCompiler
@@ -35,14 +38,14 @@ main = hakyll $ do
             >>> applyTemplateCompiler "templates/default.html"
             >>> relativizeUrlsCompiler
 
-    -- About page
+    -- about page
     match (list [ "about.markdown", "projects.markdown" ]) $ do
         route $ setExtension "html"
         compile $ pageCompiler
             >>> applyTemplateCompiler "templates/default.html"
             >>> relativizeUrlsCompiler
 
-    -- Index page
+    -- index page
     match "index.html" $ route idRoute
     create "index.html" $ constA mempty
         >>> arr (setField "title" "Recent posts")
@@ -51,7 +54,7 @@ main = hakyll $ do
         >>> applyTemplateCompiler "templates/default.html"
         >>> relativizeUrlsCompiler
 
-    -- Tag cloud
+    -- tag cloud
     match "tags.html" $ route idRoute
     create "tags.html" $ constA mempty
         >>> arr (setField "title" "tag cloud")
@@ -60,7 +63,7 @@ main = hakyll $ do
         >>> applyTemplateCompiler "templates/default.html"
         >>> relativizeUrlsCompiler
 
-    -- Tags
+    -- tags
     create "tags" $
         requireAll "posts/*" (\_ ps -> readTags ps :: Tags String)
 
@@ -69,7 +72,7 @@ main = hakyll $ do
         >>> arr tagsMap
         >>> arr (map (\(t, p) -> (tagIdentifier t, makeTagList t p)))
 
-    -- All posts page
+    -- all posts page
     match "posts.html" $ route idRoute
     create "posts.html" $ constA mempty
         >>> arr (setField "title" "All posts")
@@ -82,7 +85,15 @@ main = hakyll $ do
 
   where
     tagIdentifier :: String -> Identifier (Page String)
-    tagIdentifier = fromCapture "tags/*"
+    tagIdentifier name =
+        let sanitized = strRep [("#", "sharp"), (".", "dot")] name
+        in  fromCapture "tags/*" sanitized
+
+    replace s (a, b) =
+        let [ss, aa, bb] = [T.pack x | x <- [s,a,b]]
+        in  T.unpack $ T.replace aa bb ss
+
+    strRep reps input = foldl' replace input reps
 
     renderTagCloud' :: Compiler (Tags String) String
     renderTagCloud' = renderTagCloud tagIdentifier 100 120
