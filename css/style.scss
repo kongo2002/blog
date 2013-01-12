@@ -87,7 +87,7 @@ div.header {
     text-decoration: none;
   }
 
-  div.name {
+  span.name {
     padding: 20px 0 10px 0;
     font-size: 2.2em;
 
@@ -97,7 +97,7 @@ div.header {
     }
   }
 
-  div.sub {
+  span.sub {
     color: $dark;
   }
 }
