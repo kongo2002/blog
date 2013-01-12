@@ -63,7 +63,7 @@ main = hakyll $ do
     -- tag cloud
     match "tags.html" $ route idRoute
     create "tags.html" $ constA mempty
-        >>> arr (setField "title" "tag cloud")
+        >>> arr (setField "title" "Tag cloud")
         >>> requireA "tags" (setFieldA "tagcloud" (renderTagCloud'))
         >>> applyTemplateCompiler "templates/tagcloud.html"
         >>> applyTemplateCompiler "templates/default.html"
