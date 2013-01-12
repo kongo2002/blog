@@ -33,7 +33,7 @@ main = hakyll $ do
         compile $ pageCompiler
             >>> arr (renderDateField "date" "%B %e, %Y" "Date unknown")
             >>> arr (renderDateField "shortdate" "%Y-%m-%d" "Date unknown")
-            >>> renderTagsField "posttags" (fromCapture "tags/*")
+            >>> renderTagsField "posttags" tagIdentifier
             >>> applyTemplateCompiler "templates/post.html"
             >>> applyTemplateCompiler "templates/default.html"
             >>> relativizeUrlsCompiler
@@ -84,7 +84,6 @@ main = hakyll $ do
     match "templates/*" $ compile templateCompiler
 
   where
-    tagIdentifier :: String -> Identifier (Page String)
     tagIdentifier name =
         let sanitized = strRep [("#", "sharp"), (".", "dot")] name
         in  fromCapture "tags/*" sanitized
