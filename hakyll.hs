@@ -33,12 +33,13 @@ main = hakyll $ do
         compile $ pageCompiler
             >>> arr (renderDateField "date" "%B %e, %Y" "Date unknown")
             >>> arr (renderDateField "shortdate" "%Y-%m-%d" "Date unknown")
+            >>> arr (copyBodyToField "description")
             >>> renderTagsField "posttags" tagIdentifier
             >>> applyTemplateCompiler "templates/post.html"
             >>> applyTemplateCompiler "templates/default.html"
             >>> relativizeUrlsCompiler
 
-    -- about page
+    -- about and projects page
     match (list [ "about.markdown", "projects.markdown" ]) $ do
         route $ setExtension "html"
         compile $ pageCompiler
@@ -53,6 +54,11 @@ main = hakyll $ do
         >>> applyTemplateCompiler "templates/index.html"
         >>> applyTemplateCompiler "templates/default.html"
         >>> relativizeUrlsCompiler
+
+    -- atom feed
+    match "feed.atom" $ route idRoute
+    create "feed.atom" $ requireAll_ "posts/*"
+        >>> renderAtom feedConfig
 
     -- tag cloud
     match "tags.html" $ route idRoute
@@ -117,3 +123,12 @@ makeTagList tag posts =
         >>> applyTemplateCompiler "templates/posts.html"
         >>> applyTemplateCompiler "templates/default.html"
         >>> relativizeUrlsCompiler
+
+feedConfig :: FeedConfiguration
+feedConfig = FeedConfiguration
+             { feedTitle = "uhlenheuer.net"
+             , feedDescription = ".NET and programming blog from Gregor Uhlenheuer"
+             , feedAuthorName = "Gregor Uhlenheuer"
+             , feedAuthorEmail = "kongo2002@googlemail.com"
+             , feedRoot = "http://uhlenheuer.net"
+             }
