@@ -104,20 +104,21 @@ div.footer {
     font-size: 16px;
     color: #aba098;
     text-align: center;
+
+    p {
+        margin: 0;
+    }
+
+    p.small {
+        margin-top: 3px;
+        font-size: 0.75em;
+
+        a {
+            color: #aba098;
+        }
+    }
 }
 
-div.footer p {
-    margin: 0;
-}
-
-div.footer p.small {
-    margin-top: 3px;
-    font-size: 0.75em;
-}
-
-div.footer p.small a {
-    color: #aba098;
-}
 
 p, div.line-block, ul, ol, pre, table {
     margin: 15px 0 20px 0;
@@ -157,13 +158,13 @@ p.subtitle {
     color: #aba098;
     margin-top: -25px;
     font-style: italic;
+
+    span.date {
+        font-weight: bold;
+    }
 }
 
-p.subtitle span.date {
-    font-weight: bold;
-}
-
-pre, code, tt {
+pre, code {
     font-family: 'Consolas', 'Inconsolata', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', 'Monaco', 'Courier New', monospace;
     font-size: 0.85em;
 }
@@ -218,12 +219,13 @@ div.footnotes code {
 
 sup {
     font-size: 0.75em;
+
+    a {
+        text-decoration: none;
+        background: #eee;
+    }
 }
 
-sup a {
-    text-decoration: none;
-    background: #eee;
-}
 
 div.postitem {
     margin: 25px 0;
@@ -250,34 +252,35 @@ div.postitem div.date {
     font-size: 0.9em;
     color: #aba098;
     text-transform: uppercase;
-}
 
-div.postitem div.date abbr {
-    text-transform: none;
+    abbr {
+        text-transform: none;
+    }
 }
 
 div.figure {
     text-align: center;
     font-size: 1.2em;
     margin: 20px 30px;
+
+    img {
+        margin: 15px auto 10px auto;
+        display: block;
+        background: #fafafa;
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
 }
 
-div.figure img {
-    margin: 15px auto 10px auto;
-    display: block;
-    background: #fafafa;
-    padding: 10px;
-    border: 1px solid #ddd;
-}
 
 div.pagination {
     margin: 36px 0 0 0;
     text-align: center;
-}
 
-div.pagination strong {
-    font-weight: normal;
-    font-style: italic;
+    strong {
+        font-weight: normal;
+        font-style: italic;
+    }
 }
 
 p.tags {
@@ -304,6 +307,7 @@ span.math img {
     margin-bottom: -7px;
 }
 
+/* source code styles */
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre {
     border: medium none;
     margin: 0;
@@ -323,56 +327,60 @@ td.sourceCode {
     padding-left: 5px;
 }
 
-pre.sourceCode span.kw {
-    color: #AE4A54;
+pre.sourceCode {
+
+    span.kw {
+        color: #AE4A54;
+    }
+
+    span.dt {
+        color: #902000;
+    }
+
+    span.dv {
+        color: #40A070;
+    }
+
+    span.bn {
+        color: #40A070;
+    }
+
+    span.fl {
+        color: #40A070;
+    }
+
+    span.ch {
+        color: #4070A0;
+    }
+
+    span.st {
+        color: #4070A0;
+    }
+
+    span.co {
+        color: #60A0B0;
+        font-style: italic;
+    }
+
+    span.ot {
+        color: #007020;
+    }
+
+    span.al {
+        color: red;
+        font-weight: bold;
+    }
+
+    span.fu {
+        color: #06287E;
+    }
+
+    span.re {
+    }
+
+    span.er {
+        color: red;
+        font-weight: bold;
+    }
 }
 
-pre.sourceCode span.dt {
-    color: #902000;
-}
-
-pre.sourceCode span.dv {
-    color: #40A070;
-}
-
-pre.sourceCode span.bn {
-    color: #40A070;
-}
-
-pre.sourceCode span.fl {
-    color: #40A070;
-}
-
-pre.sourceCode span.ch {
-    color: #4070A0;
-}
-
-pre.sourceCode span.st {
-    color: #4070A0;
-}
-
-pre.sourceCode span.co {
-    color: #60A0B0;
-    font-style: italic;
-}
-
-pre.sourceCode span.ot {
-    color: #007020;
-}
-
-pre.sourceCode span.al {
-    color: red;
-    font-weight: bold;
-}
-
-pre.sourceCode span.fu {
-    color: #06287E;
-}
-
-pre.sourceCode span.re {
-}
-
-pre.sourceCode span.er {
-    color: red;
-    font-weight: bold;
-}

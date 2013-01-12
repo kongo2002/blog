@@ -1,5 +1,6 @@
 *.hi
 *.o
+.sass-cache/
 _cache/
 _site/
 hakyll

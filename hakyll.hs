@@ -24,8 +24,8 @@ main = hakyll $ do
 
     -- css styles
     match "css/*" $ do
-        route idRoute
-        compile compressCssCompiler
+        route $ setExtension "css"
+        compile sass
 
     -- posts
     match "posts/*" $ do
@@ -96,6 +96,11 @@ main = hakyll $ do
 
     renderTagCloud' :: Compiler (Tags String) String
     renderTagCloud' = renderTagCloud tagIdentifier 100 120
+
+sass :: Compiler Resource String
+sass = getResourceString
+           >>> unixFilter "sass"
+               ["-s", "--scss", "--style", "compressed"]
 
 addPostList :: Compiler (Page String, [Page String]) (Page String)
 addPostList = setFieldA "posts" $
