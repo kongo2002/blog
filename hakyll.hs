@@ -129,6 +129,6 @@ feedConfig = FeedConfiguration
              { feedTitle = "uhlenheuer.net"
              , feedDescription = ".NET and programming blog from Gregor Uhlenheuer"
              , feedAuthorName = "Gregor Uhlenheuer"
-             , feedAuthorEmail = "kongo2002@googlemail.com"
+             , feedAuthorEmail = "gregor@uhlenheuer.net"
              , feedRoot = "http://uhlenheuer.net"
              }
