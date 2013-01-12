@@ -101,7 +101,7 @@ main = hakyll $ do
     strRep reps input = foldl' replace input reps
 
     renderTagCloud' :: Compiler (Tags String) String
-    renderTagCloud' = renderTagCloud tagIdentifier 100 120
+    renderTagCloud' = renderTagCloud tagIdentifier 80 160
 
 sass :: Compiler Resource String
 sass = getResourceString
