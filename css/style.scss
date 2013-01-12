@@ -3,19 +3,19 @@
 /* Open Sans Condensed: used for headers */
 @import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300);
 
-/* Arvo: used for paragraph fonts */
+/* Merriweather: used for paragraph fonts */
 @import url(http://fonts.googleapis.com/css?family=Merriweather:300);
 
 /* Ubuntu Mono: used for monospaced fonts */
 @import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono:400);
 
 /* colors */
-$bg     : #eae6d9;
-$accent : #0b2f0a;
-$light  : #aba098;
-$lighter: #bbb0a8;
-$lowkey : #ddd;
-$dark   : #000;
+$bg        : #fff;
+$accent    : #036;
+$light     : #f60;
+$lighter   : #aaa;
+$verylight : #f6f6f6;
+$dark      : #000;
 
 body {
   font-size: 17px;
@@ -32,8 +32,8 @@ a {
 }
 
 a:hover {
-  color: $accent;
-  background: $lowkey;
+  color: $light;
+  text-decoration: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -44,14 +44,6 @@ h1, h2, h3, h4, h5, h6 {
   a {
     text-decoration: none;
   }
-}
-
-ul.blog-archive a {
-  text-decoration: none;
-}
-
-ul.blog-archive span.date {
-  color: $light;
 }
 
 h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover {
@@ -71,9 +63,13 @@ h2 {
   font-size: 2em;
 }
 
+h3 {
+  font-size: 1.65em;
+}
+
 blockquote {
   font-style: italic;
-  color: $lowkey;
+  color: $lighter;
 }
 
 div.container {
@@ -140,7 +136,7 @@ div.footer {
   margin-top: 42px;
   font-size: 0.8em;
   line-height: 20px;
-  color: $light;
+  color: $lighter;
   text-align: center;
 
   p {
@@ -152,14 +148,18 @@ div.footer {
     font-size: 0.75em;
 
     a {
-      color: $light;
+      color: $lighter;
     }
   }
 }
 
 
-p, div.line-block, ul, ol, pre, table {
+p, ul, ol, pre, table {
   margin: 15px 0 20px 0;
+}
+
+ul {
+  padding-left: 1.5em;
 }
 
 dt {
@@ -177,14 +177,15 @@ ul ol, ol ul, ul ul, ol ol {
   padding: 0 0 0 40px;
 }
 
-li {
-  padding: 0;
-}
+div.body ul {
+  text-indent: -1.2em;
+  li {
+    list-style-type: none;
+  }
 
-div.body ul li {
-  padding-left: 1.1em;
-  background: url('../images/icon.png') no-repeat scroll 0 8px transparent;
-  list-style-type: none;
+  li:before {
+    content: "\00BB \0020 \0020";
+  }
 }
 
 p.caption {
@@ -213,20 +214,18 @@ pre, code {
 }
 
 pre {
-  border: 1px solid #ddd;
-  background: #eee;
   padding: 10px;
+  background: $verylight;
 }
 
 table {
-  border: 1px solid #ddd;
+  border: 1px solid $verylight;
   border-collapse: collapse;
-  background: #fafafa;
 }
 
 td, th {
   padding: 2px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid $verylight;
 }
 
 /* footnotes */
@@ -240,8 +239,8 @@ div.footnotes {
   }
 
   hr {
-    color: #ddd;
-    background-color: #ddd;
+    color: $lighter;
+    background-color: $lighter;
     margin-left: 0px;
     text-align: left;
     width: 40%;
