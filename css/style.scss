@@ -67,6 +67,10 @@ h3 {
   font-size: 1.65em;
 }
 
+h4 {
+  font-size: 1.3em;
+}
+
 blockquote {
   font-style: italic;
   color: $lighter;
@@ -158,10 +162,6 @@ p, ul, ol, pre, table {
   margin: 15px 0 20px 0;
 }
 
-ul {
-  padding-left: 1.5em;
-}
-
 dt {
   margin: 25px 0 16px 0;
   padding: 0;
@@ -170,22 +170,6 @@ dt {
 dd {
   margin: 16px 0 25px 40px;
   padding: 0;
-}
-
-ul ol, ol ul, ul ul, ol ol {
-  margin: 10px 0;
-  padding: 0 0 0 40px;
-}
-
-div.body ul {
-  text-indent: -1.2em;
-  li {
-    list-style-type: none;
-  }
-
-  li:before {
-    content: "\00BB \0020 \0020";
-  }
 }
 
 p.caption {
