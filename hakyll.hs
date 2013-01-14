@@ -1,11 +1,17 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-import           Prelude hiding (id)
-import           Control.Arrow ((>>>), (***), arr)
-import           Control.Category (id)
-import           Data.Monoid (mempty, mconcat)
-import           Data.List (foldl')
+import           Prelude hiding                  ( id )
+import           Control.Arrow                   ( (>>>), (***), (&&&), arr )
+import           Control.Category                ( id )
+import           Data.Monoid                     ( mempty, mconcat )
+import           Data.List                       ( foldl' )
+import           Data.Maybe                      ( catMaybes )
 import qualified Data.Text as T
+
+import           Text.Blaze.Html                 ( (!), toValue, toHtml )
+import           Text.Blaze.Html.Renderer.String ( renderHtml )
+import qualified Text.Blaze.Html5 as H
+import qualified Text.Blaze.Html5.Attributes as A
 
 import Hakyll
 
@@ -34,7 +40,7 @@ main = hakyll $ do
             >>> arr (renderDateField "date" "%B %e, %Y" "Date unknown")
             >>> arr (renderDateField "shortdate" "%Y-%m-%d" "Date unknown")
             >>> arr (copyBodyToField "description")
-            >>> renderTagsField "posttags" tagIdentifier
+            >>> renderTagsFieldCustom "posttags" tagIdentifier
             >>> applyTemplateCompiler "templates/post.html"
             >>> applyTemplateCompiler "templates/default.html"
             >>> relativizeUrlsCompiler
@@ -102,6 +108,40 @@ main = hakyll $ do
 
     renderTagCloud' :: Compiler (Tags String) String
     renderTagCloud' = renderTagCloud tagIdentifier 80 160
+
+renderTagsFieldCombWith :: (Page a -> [String])
+                    -> ([H.Html] -> [H.Html])
+                    -> String
+                    -> (String -> Identifier a)
+                    -> Compiler (Page a) (Page a)
+renderTagsFieldCombWith tags comb destination makeUrl =
+    id &&& arr tags >>> setFieldA destination renderTags'
+    where
+      -- Compiler creating a comma-separated HTML string for a list of tags
+      renderTags' :: Compiler [String] String
+      renderTags' = arr (map $ id &&& makeUrl)
+                  >>> mapCompiler (id *** getRouteFor)
+                  >>> arr (map $ uncurry renderLink)
+                  >>> arr (renderHtml . mconcat . comb . catMaybes)
+
+      -- Render one tag link
+      renderLink _ Nothing = Nothing
+      renderLink tag (Just filePath) = Just $
+          H.a ! A.href (toValue $ toUrl filePath) $ toHtml tag
+
+renderTagsFieldCustom :: String
+                    -> (String -> Identifier a)
+                    -> Compiler (Page a) (Page a)
+renderTagsFieldCustom = renderTagsFieldCombWith getTags (intersperseLast ", " " and ")
+
+intersperseLast :: a -> a -> [a] -> [a]
+intersperseLast _ _ []     = []
+intersperseLast s l (x:xs) = x : prependLast s l xs
+
+prependLast :: a -> a -> [a] -> [a]
+prependLast _ _ []     = []
+prependLast _ l [x]    = l : [x]
+prependLast s l (y:ys) = s : y : prependLast s l ys
 
 sass :: Compiler Resource String
 sass = getResourceString
