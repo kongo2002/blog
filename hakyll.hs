@@ -2,8 +2,10 @@
 
 import           Prelude hiding                  ( id )
 import           Control.Arrow                   ( (>>>), (***), (&&&), arr )
+import           Control.Applicative             ( (<$>) )
 import           Control.Category                ( id )
-import           Data.Monoid                     ( mempty, mconcat )
+import           Control.Monad                   ( forM )
+import           Data.Monoid                     ( mempty, mconcat, mappend )
 import           Data.List                       ( foldl' )
 import           Data.Maybe                      ( catMaybes )
 import qualified Data.Text as T
@@ -33,106 +35,108 @@ main = hakyll $ do
         route $ setExtension "css"
         compile sass
 
+    -- build tags
+    tags <- buildTags "posts/*" tagIdentifier
+
     -- posts
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ pageCompiler
-            >>> arr (renderDateField "date" "%B %e, %Y" "Date unknown")
-            >>> arr (renderDateField "shortdate" "%Y-%m-%d" "Date unknown")
-            >>> arr (copyBodyToField "description")
-            >>> renderTagsFieldCustom "posttags" tagIdentifier
-            >>> applyTemplateCompiler "templates/post.html"
-            >>> applyTemplateCompiler "templates/default.html"
-            >>> relativizeUrlsCompiler
+        compile $ pandocCompiler
+            >>= saveSnapshot "content"
+            >>= return . fmap demoteHeaders
+            >>= loadAndApplyTemplate "templates/post.html" postContext
+            >>= loadAndApplyTemplate "templates/default.html" defaultContext
+            >>= relativizeUrls
 
     -- about and projects page
-    match (list [ "about.markdown", "projects.markdown" ]) $ do
+    match ("about.markdown" .||. "projects.markdown" ) $ do
         route $ setExtension "html"
-        compile $ pageCompiler
-            >>> applyTemplateCompiler "templates/default.html"
-            >>> relativizeUrlsCompiler
-
-    -- index page
-    match "index.html" $ route idRoute
-    create "index.html" $ constA mempty
-        >>> arr (setField "title" "Recent posts")
-        >>> requireAllA "posts/*" (id *** arr (take 10 . reverse . chronological) >>> addPostList)
-        >>> applyTemplateCompiler "templates/index.html"
-        >>> applyTemplateCompiler "templates/default.html"
-        >>> relativizeUrlsCompiler
-
-    -- atom feed
-    match "feed.atom" $ route idRoute
-    create "feed.atom" $ requireAll_ "posts/*"
-        >>> renderAtom feedConfig
-
-    -- tag cloud
-    match "tags.html" $ route idRoute
-    create "tags.html" $ constA mempty
-        >>> arr (setField "title" "Tag cloud")
-        >>> requireA "tags" (setFieldA "tagcloud" (renderTagCloud'))
-        >>> applyTemplateCompiler "templates/tagcloud.html"
-        >>> applyTemplateCompiler "templates/default.html"
-        >>> relativizeUrlsCompiler
+        compile $ pandocCompiler
+            >>= loadAndApplyTemplate "templates/default.html" defaultContext
+            >>= relativizeUrls
 
     -- tags
-    create "tags" $
-        requireAll "posts/*" (\_ ps -> readTags ps :: Tags String)
+    tagsRules tags $ \tag pattern -> do
+        let title = "Posts tagged " ++ tag
 
-    match "tags/*" $ route $ setExtension "html"
-    metaCompile $ require_ "tags"
-        >>> arr tagsMap
-        >>> arr (map (\(t, p) -> (tagIdentifier t, makeTagList t p)))
+        route idRoute
+        compile $ do
+            list <- postList tags pattern recentFirst
+            let context = constField "title" title `mappend`
+                          constField "posts" list `mappend`
+                          defaultContext
+            makeItem ""
+                >>= loadAndApplyTemplate "templates/posts.html" context
+                >>= loadAndApplyTemplate "templates/default.html" context
+
+        version "feed" $ do
+            route $ setExtension "atom"
+            compile $ loadAllSnapshots pattern "content"
+                >>= return . take 10 . recentFirst
+                >>= renderAtom feedConfig feedContext
+
+    -- index page
+    create ["index.html"] $ do
+        route idRoute
+        compile $ do
+            list <- postList tags "posts/*" $ take 10 . recentFirst
+            let context = constField "title" "Recent posts" `mappend`
+                          constField "posts" list `mappend`
+                          defaultContext
+            makeItem ""
+                >>= loadAndApplyTemplate "templates/posts.html" context
+                >>= loadAndApplyTemplate "templates/default.html" context
+
+    -- tag cloud
+    create ["tags.html"] $ do
+        route idRoute
+        compile $ do
+            cloud <- renderTagCloud' tags
+            let context = constField "title" "Tag cloud" `mappend`
+                          constField "tagcloud" cloud `mappend`
+                          defaultContext
+            makeItem ""
+                >>= loadAndApplyTemplate "templates/tagcloud.html" context
+                >>= loadAndApplyTemplate "templates/default.html" context
 
     -- all posts page
-    match "posts.html" $ route idRoute
-    create "posts.html" $ constA mempty
-        >>> arr (setField "title" "All posts")
-        >>> requireAllA "posts/*" (id *** arr (reverse . chronological) >>> addPostList)
-        >>> applyTemplateCompiler "templates/posts.html"
-        >>> applyTemplateCompiler "templates/default.html"
-        >>> relativizeUrlsCompiler
+    create ["posts.html"] $ do
+        route idRoute
+        compile $ do
+            list <- postList tags "posts/*" recentFirst
+            let context = constField "title" "All posts" `mappend`
+                          constField "posts" list `mappend`
+                          defaultContext
+            makeItem ""
+                >>= loadAndApplyTemplate "templates/posts.html" context
+                >>= loadAndApplyTemplate "templates/default.html" context
 
-    match "templates/*" $ compile templateCompiler
+    match "templates/*" $ compile $ templateCompiler
 
   where
-    tagIdentifier name =
-        let sanitized = strRep [("#", "sharp"), (".", "dot")] name
-        in  fromCapture "tags/*" sanitized
+    renderTagCloud' = renderTagCloud 80 160
 
-    replace s (a, b) =
-        let [ss, aa, bb] = [T.pack x | x <- [s,a,b]]
-        in  T.unpack $ T.replace aa bb ss
 
-    strRep reps input = foldl' replace input reps
+tagsFieldCombWith :: (Identifier -> Compiler [String])
+                  -> ([H.Html] -> [H.Html])
+                  -> String
+                  -> Context a
+tagsFieldCombWith getTags' comb key = field key $ \item -> do
+    tags' <- getTags' $ itemIdentifier item
+    links <- forM tags' $ \tag -> do
+        route' <- getRoute $ tagIdentifier tag
+        return $ renderLink tag route'
 
-    renderTagCloud' :: Compiler (Tags String) String
-    renderTagCloud' = renderTagCloud tagIdentifier 80 160
+    return $ renderHtml $ mconcat $ comb $ catMaybes $ links
+  where
+    -- Render one tag link
+    renderLink _   Nothing         = Nothing
+    renderLink tag (Just filePath) = Just $
+        H.a ! A.href (toValue $ toUrl filePath) $ toHtml tag
 
-renderTagsFieldCombWith :: (Page a -> [String])
-                    -> ([H.Html] -> [H.Html])
-                    -> String
-                    -> (String -> Identifier a)
-                    -> Compiler (Page a) (Page a)
-renderTagsFieldCombWith tags comb destination makeUrl =
-    id &&& arr tags >>> setFieldA destination renderTags'
-    where
-      -- Compiler creating a comma-separated HTML string for a list of tags
-      renderTags' :: Compiler [String] String
-      renderTags' = arr (map $ id &&& makeUrl)
-                  >>> mapCompiler (id *** getRouteFor)
-                  >>> arr (map $ uncurry renderLink)
-                  >>> arr (renderHtml . mconcat . comb . catMaybes)
-
-      -- Render one tag link
-      renderLink _ Nothing = Nothing
-      renderLink tag (Just filePath) = Just $
-          H.a ! A.href (toValue $ toUrl filePath) $ toHtml tag
-
-renderTagsFieldCustom :: String
-                    -> (String -> Identifier a)
-                    -> Compiler (Page a) (Page a)
-renderTagsFieldCustom = renderTagsFieldCombWith getTags (intersperseLast ", " " and ")
+tagsFieldCustom :: String
+                -> Context a
+tagsFieldCustom = tagsFieldCombWith getTags (intersperseLast ", " " and ")
 
 intersperseLast :: a -> a -> [a] -> [a]
 intersperseLast _ _ []     = []
@@ -143,26 +147,44 @@ prependLast _ _ []     = []
 prependLast _ l [x]    = l : [x]
 prependLast s l (y:ys) = s : y : prependLast s l ys
 
-sass :: Compiler Resource String
-sass = getResourceString
-           >>> unixFilter "sass"
-               ["-s", "--scss", "--style", "compressed"]
+tagIdentifier :: String -> Identifier
+tagIdentifier name =
+    let sanitized = strRep [("#", "sharp"), (".", "dot")] name
+    in  fromCapture "tags/*.html" sanitized
 
-addPostList :: Compiler (Page String, [Page String]) (Page String)
-addPostList = setFieldA "posts" $
-    arr (reverse . chronological)
-        >>> require "templates/postitem.html" (\p t -> map (applyTemplate t) p)
-        >>> arr mconcat
-        >>> arr pageBody
+replace :: String -> (String, String) -> String
+replace s (a, b) =
+    let [ss, aa, bb] = [T.pack x | x <- [s,a,b]]
+    in  T.unpack $ T.replace aa bb ss
 
-makeTagList :: String -> [Page String] -> Compiler () (Page String)
-makeTagList tag posts =
-    constA (mempty, posts)
-        >>> addPostList
-        >>> arr (setField "title" ("Posts tagged '" ++ tag ++ "'"))
-        >>> applyTemplateCompiler "templates/posts.html"
-        >>> applyTemplateCompiler "templates/default.html"
-        >>> relativizeUrlsCompiler
+strRep :: [(String, String)] -> String -> String
+strRep reps input = foldl' replace input reps
+
+sass :: Compiler (Item String)
+sass =
+    getResourceString >>=
+        withItemBody (unixFilter "sass" ["-s", "--scss", "--style", "compressed"])
+
+postList :: Tags -> Pattern -> ([Item String] -> [Item String]) -> Compiler String
+postList tags pattern preprocess' = do
+    templ <- loadBody "templates/postitem.html"
+    posts <- preprocess' <$> loadAll pattern
+    applyTemplateList templ postContext posts
+
+postContext :: Context String
+postContext = mconcat
+    [ dateField "date" "%B %e, %Y"
+    , dateField "shortdate" "%Y-%m-%d"
+    , modificationTimeField "mtime" "%U"
+    , tagsFieldCustom "posttags"
+    , defaultContext
+    ]
+
+feedContext :: Context String
+feedContext = mconcat
+    [ bodyField "description"
+    , defaultContext
+    ]
 
 feedConfig :: FeedConfiguration
 feedConfig = FeedConfiguration
