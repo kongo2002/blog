@@ -57,7 +57,7 @@ main = hakyll $ do
 
     -- tags
     tagsRules tags $ \tag pattern -> do
-        let title = "Posts tagged " ++ tag
+        let title = "Posts tagged '" ++ tag ++ "'"
 
         route idRoute
         compile $ do
@@ -68,14 +68,6 @@ main = hakyll $ do
             makeItem ""
                 >>= loadAndApplyTemplate "templates/posts.html" context
                 >>= loadAndApplyTemplate "templates/default.html" context
-
-        {-
-        version "feed" $ do
-            route $ setExtension "atom"
-            compile $ loadAllSnapshots pattern "content"
-                >>= return . take 10 . recentFirst
-                >>= renderAtom feedConfig feedContext
-        -}
 
     -- index page
     create ["index.html"] $ do
