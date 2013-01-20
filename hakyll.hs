@@ -69,11 +69,13 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/posts.html" context
                 >>= loadAndApplyTemplate "templates/default.html" context
 
+        {-
         version "feed" $ do
             route $ setExtension "atom"
             compile $ loadAllSnapshots pattern "content"
                 >>= return . take 10 . recentFirst
                 >>= renderAtom feedConfig feedContext
+        -}
 
     -- index page
     create ["index.html"] $ do
@@ -98,6 +100,14 @@ main = hakyll $ do
             makeItem ""
                 >>= loadAndApplyTemplate "templates/tagcloud.html" context
                 >>= loadAndApplyTemplate "templates/default.html" context
+
+    -- atom feed
+    create ["feed.atom"] $ do
+        route idRoute
+        compile $ do
+            loadAllSnapshots "posts/*" "content"
+                >>= return . recentFirst
+                >>= renderAtom feedConfig feedContext
 
     -- all posts page
     create ["posts.html"] $ do
