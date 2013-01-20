@@ -1,11 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 import           Prelude hiding                  ( id )
-import           Control.Arrow                   ( (>>>), (***), (&&&), arr )
 import           Control.Applicative             ( (<$>) )
-import           Control.Category                ( id )
 import           Control.Monad                   ( forM )
-import           Data.Monoid                     ( mempty, mconcat, mappend )
+import           Data.Monoid                     ( mconcat, mappend )
 import           Data.List                       ( foldl' )
 import           Data.Maybe                      ( catMaybes )
 import qualified Data.Text as T
