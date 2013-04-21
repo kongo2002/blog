@@ -78,11 +78,20 @@ following lines in it:
 
 ~~~ { .bash }
 ECLIPSE_XMS=512m
-ECLIPSE_XMX=1024m
+ECLIPSE_XMX=2048m
 
 ECLIPSE_PERMSIZE=512m
-ECLIPSE_MAX_PERMSIZE=1024m
+ECLIPSE_MAX_PERMSIZE=2048m
 ~~~
+
+
+## Check your configuration
+
+In order to check your configuration changes you can easily look in your
+running processes (i.e. `htop`) and verify your parameters are passed the way
+you want them to:
+
+![Screenshot of htop](/images/htop_eclipse.png)
 
 [1]: http://android.com
 [2]: http://scala-lang.com
