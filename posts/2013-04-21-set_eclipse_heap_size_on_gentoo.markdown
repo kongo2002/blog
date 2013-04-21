@@ -87,9 +87,9 @@ ECLIPSE_MAX_PERMSIZE=2048m
 
 ## Check your configuration
 
-In order to check your configuration changes you can easily look in your
-running processes (i.e. `htop`) and verify your parameters are passed the way
-you want them to:
+In order to check your configuration changes you can easily look on your
+running processes (i.e. use `htop`) and verify your parameters are passed the
+way you want them to:
 
 ![Screenshot of htop](/images/htop_eclipse.png)
 
