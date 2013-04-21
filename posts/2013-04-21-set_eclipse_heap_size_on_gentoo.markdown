@@ -58,7 +58,7 @@ finally solved my problems. I ended up editing the gentoo specific
 configuration file that is used by the launcher script. I discovered that by
 looking into:
 
-    $ vim `which eclipse-bin*`
+    $ vim `which eclipse-bin-4.2`
 
 The two important lines are right at the top:
 
