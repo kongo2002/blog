@@ -70,6 +70,11 @@ buffers` and `:h tabpage` for further information.
     set ignorecase
     set smartcase
 
+Starting from a basic set of options you can incrementally improve or extend
+your vim configuration by exploring vim's options. For one you can get help for
+every setting by invoking `:h :<optionname>`. Moreover you can get a complete
+list of available options via `:options`.
+
 
 ## Mappings
 
