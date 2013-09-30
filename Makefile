@@ -1,13 +1,13 @@
 all: rebuild publish
 
 rebuild:
-	./hakyll rebuild
+	./site rebuild
 
 build:
-	./hakyll build
+	./site build
 
 serve:
-	./hakyll preview
+	./site preview
 
 publish:
 	rsync -a _site/ web2544@494627.server.adminflex.de:/home/web2544/www/
