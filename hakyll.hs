@@ -59,9 +59,8 @@ main = hakyll $ do
 
         route idRoute
         compile $ do
-            list <- postList tags pattern recentFirst
             let context = constField "title" title `mappend`
-                          constField "posts" list `mappend`
+                          listField "posts" postContext (recentFirst =<< loadAll pattern) `mappend`
                           defaultContext
             makeItem ""
                 >>= loadAndApplyTemplate "templates/posts.html" context
@@ -71,9 +70,8 @@ main = hakyll $ do
     create ["index.html"] $ do
         route idRoute
         compile $ do
-            list <- postList tags "posts/*" $ take 10 . recentFirst
             let context = constField "title" "Recent posts" `mappend`
-                          constField "posts" list `mappend`
+                          listField "posts" postContext (fmap (take 10) . recentFirst =<< loadAll "posts/*") `mappend`
                           defaultContext
             makeItem ""
                 >>= loadAndApplyTemplate "templates/posts.html" context
@@ -96,16 +94,15 @@ main = hakyll $ do
         route idRoute
         compile $ do
             loadAllSnapshots "posts/*" "content"
-                >>= return . recentFirst
+                >>= recentFirst
                 >>= renderAtom feedConfig feedContext
 
     -- all posts page
     create ["posts.html"] $ do
         route idRoute
         compile $ do
-            list <- postList tags "posts/*" recentFirst
             let context = constField "title" "All posts" `mappend`
-                          constField "posts" list `mappend`
+                          listField "posts" postContext (recentFirst =<< loadAll "posts/*") `mappend`
                           defaultContext
             makeItem ""
                 >>= loadAndApplyTemplate "templates/posts.html" context
@@ -164,12 +161,6 @@ sass :: Compiler (Item String)
 sass =
     getResourceString >>=
         withItemBody (unixFilter "sass" ["-s", "--scss", "--style", "compressed"])
-
-postList :: Tags -> Pattern -> ([Item String] -> [Item String]) -> Compiler String
-postList tags pattern preprocess' = do
-    templ <- loadBody "templates/postitem.html"
-    posts <- preprocess' <$> loadAll pattern
-    applyTemplateList templ postContext posts
 
 postContext :: Context String
 postContext = mconcat

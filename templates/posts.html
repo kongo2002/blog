@@ -1,2 +1,14 @@
-$posts$
+$for(posts)$
+<div class="postitem">
+  <div class="date">
+    <abbr class="timeago" title="$shortdate$">$date$</abbr>
+  </div>
+  <div class="detail">
+    <h1><a href="$url$">$title$</a></h1>
+    <div class="summary">
+      $summary$
+    </div>
+  </div>
+</div>
+$endfor$
 <a href="/">Index</a>
