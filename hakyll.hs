@@ -1,12 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 import           Prelude hiding                  ( id )
+
 import           Control.Applicative             ( (<$>) )
 import           Control.Monad                   ( forM )
+
 import           Data.Monoid                     ( mconcat, mappend )
 import           Data.List                       ( foldl' )
 import           Data.Maybe                      ( catMaybes )
 import qualified Data.Text as T
+
+import           System.Environment              ( getArgs )
 
 import           Text.Blaze.Html                 ( (!), toValue, toHtml )
 import           Text.Blaze.Html.Renderer.String ( renderHtml )
@@ -15,103 +19,125 @@ import qualified Text.Blaze.Html5.Attributes as A
 
 import Hakyll
 
+
 main :: IO ()
-main = hakyll $ do
+main = do
 
-    -- images
-    match "images/*" $ do
-        route idRoute
-        compile copyFileCompiler
+    -- fetch command line arguments
+    (action:args) <- getArgs
 
-    -- static files
-    match "static/*" $ do
-        route idRoute
-        compile copyFileCompiler
+    -- 'preview mode' determination
+    let previewMode = action == "preview"
+        -- configuration
+        config      = if previewMode
+                      then previewConfiguration
+                      else defaultConfiguration
 
-    -- css styles
-    match "css/*" $ do
-        route $ setExtension "css"
-        compile sass
+        -- pattern depending on 'preview mode'
+        getPattern pat = if previewMode
+                         then posts .||. drafts
+                         else posts
+                       where
+                         posts  = fromGlob $ pat ++ "/*"
+                         drafts = fromGlob $ "drafts/" ++ pat ++ "/*"
+        postsPattern = getPattern "posts"
 
-    -- build tags
-    tags <- buildTags "posts/*" tagIdentifier
+    hakyllWith config $ do
 
-    -- posts
-    match "posts/*" $ do
-        route $ setExtension "html"
-        compile $ pandocCompiler
-            >>= saveSnapshot "content"
-            >>= return . fmap demoteHeaders
-            >>= loadAndApplyTemplate "templates/post.html" postContext
-            >>= loadAndApplyTemplate "templates/default.html" defaultContext
-            >>= relativizeUrls
+        -- images
+        match "images/*" $ do
+            route idRoute
+            compile copyFileCompiler
 
-    -- about and projects page
-    match ("about.markdown" .||. "projects.markdown" ) $ do
-        route $ setExtension "html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/default.html" defaultContext
-            >>= relativizeUrls
+        -- static files
+        match "static/*" $ do
+            route idRoute
+            compile copyFileCompiler
 
-    -- tags
-    tagsRules tags $ \tag pattern -> do
-        let title = "Posts tagged '" ++ tag ++ "'"
+        -- css styles
+        match "css/*" $ do
+            route $ setExtension "css"
+            compile sass
 
-        route idRoute
-        compile $ do
-            let context = constField "title" title `mappend`
-                          listField "posts" postContext (recentFirst =<< loadAll pattern) `mappend`
-                          defaultContext
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/posts.html" context
-                >>= loadAndApplyTemplate "templates/default.html" context
+        -- build tags
+        tags <- buildTags postsPattern tagIdentifier
 
-    -- index page
-    create ["index.html"] $ do
-        route idRoute
-        compile $ do
-            let context = constField "title" "Recent posts" `mappend`
-                          listField "posts" postContext (fmap (take 10) . recentFirst =<< loadAll "posts/*") `mappend`
-                          defaultContext
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/posts.html" context
-                >>= loadAndApplyTemplate "templates/default.html" context
+        -- posts
+        match postsPattern $ do
+            route $ setExtension "html"
+            compile $ pandocCompiler
+                >>= saveSnapshot "content"
+                >>= return . fmap demoteHeaders
+                >>= loadAndApplyTemplate "templates/post.html" postContext
+                >>= loadAndApplyTemplate "templates/default.html" defaultContext
+                >>= relativizeUrls
 
-    -- tag cloud
-    create ["tags.html"] $ do
-        route idRoute
-        compile $ do
-            cloud <- renderTagCloud' tags
-            let context = constField "title" "Tag cloud" `mappend`
-                          constField "tagcloud" cloud `mappend`
-                          defaultContext
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/tagcloud.html" context
-                >>= loadAndApplyTemplate "templates/default.html" context
+        -- about and projects page
+        match ("about.markdown" .||. "projects.markdown" ) $ do
+            route $ setExtension "html"
+            compile $ pandocCompiler
+                >>= loadAndApplyTemplate "templates/default.html" defaultContext
+                >>= relativizeUrls
 
-    -- atom feed
-    create ["feed.atom"] $ do
-        route idRoute
-        compile $ do
-            loadAllSnapshots "posts/*" "content"
-                >>= recentFirst
-                >>= renderAtom feedConfig feedContext
+        -- tags
+        tagsRules tags $ \tag pattern -> do
+            let title = "Posts tagged '" ++ tag ++ "'"
 
-    -- all posts page
-    create ["posts.html"] $ do
-        route idRoute
-        compile $ do
-            let context = constField "title" "All posts" `mappend`
-                          listField "posts" postContext (recentFirst =<< loadAll "posts/*") `mappend`
-                          defaultContext
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/posts.html" context
-                >>= loadAndApplyTemplate "templates/default.html" context
+            route idRoute
+            compile $ do
+                let context = constField "title" title `mappend`
+                              listField "posts" postContext (recentFirst =<< loadAll pattern) `mappend`
+                              defaultContext
+                makeItem ""
+                    >>= loadAndApplyTemplate "templates/posts.html" context
+                    >>= loadAndApplyTemplate "templates/default.html" context
 
-    match "templates/*" $ compile $ templateCompiler
+        -- index page
+        create ["index.html"] $ do
+            route idRoute
+            compile $ do
+                let context = constField "title" "Recent posts" `mappend`
+                              listField "posts" postContext (fmap (take 10) . recentFirst =<< loadAll postsPattern) `mappend`
+                              defaultContext
+                makeItem ""
+                    >>= loadAndApplyTemplate "templates/posts.html" context
+                    >>= loadAndApplyTemplate "templates/default.html" context
 
-  where
-    renderTagCloud' = renderTagCloud 80 160
+        -- tag cloud
+        create ["tags.html"] $ do
+            route idRoute
+            compile $ do
+                cloud <- renderTagCloud' tags
+                let context = constField "title" "Tag cloud" `mappend`
+                              constField "tagcloud" cloud `mappend`
+                              defaultContext
+                makeItem ""
+                    >>= loadAndApplyTemplate "templates/tagcloud.html" context
+                    >>= loadAndApplyTemplate "templates/default.html" context
+
+        -- atom feed
+        create ["feed.atom"] $ do
+            route idRoute
+            compile $ do
+                loadAllSnapshots postsPattern "content"
+                    >>= recentFirst
+                    >>= renderAtom feedConfig feedContext
+
+        -- all posts page
+        create ["posts.html"] $ do
+            route idRoute
+            compile $ do
+                let context = constField "title" "All posts" `mappend`
+                              listField "posts" postContext (recentFirst =<< loadAll postsPattern) `mappend`
+                              defaultContext
+                makeItem ""
+                    >>= loadAndApplyTemplate "templates/posts.html" context
+                    >>= loadAndApplyTemplate "templates/default.html" context
+
+        match "templates/*" $ compile $ templateCompiler
+
+      where
+        renderTagCloud' = renderTagCloud 80 160
 
 
 tagsFieldCombWith :: (Identifier -> Compiler [String])
@@ -131,36 +157,44 @@ tagsFieldCombWith getTags' comb key = field key $ \item -> do
     renderLink tag (Just filePath) = Just $
         H.a ! A.href (toValue $ toUrl filePath) $ toHtml tag
 
+
 tagsFieldCustom :: String
                 -> Context a
 tagsFieldCustom = tagsFieldCombWith getTags (intersperseLast ", " " and ")
 
+
 intersperseLast :: a -> a -> [a] -> [a]
 intersperseLast _ _ []     = []
 intersperseLast s l (x:xs) = x : prependLast s l xs
+
 
 prependLast :: a -> a -> [a] -> [a]
 prependLast _ _ []     = []
 prependLast _ l [x]    = l : [x]
 prependLast s l (y:ys) = s : y : prependLast s l ys
 
+
 tagIdentifier :: String -> Identifier
 tagIdentifier name =
     let sanitized = strRep [("#", "sharp"), (".", "dot")] name
     in  fromCapture "tags/*.html" sanitized
+
 
 replace :: String -> (String, String) -> String
 replace s (a, b) =
     let [ss, aa, bb] = [T.pack x | x <- [s,a,b]]
     in  T.unpack $ T.replace aa bb ss
 
+
 strRep :: [(String, String)] -> String -> String
 strRep reps input = foldl' replace input reps
+
 
 sass :: Compiler (Item String)
 sass =
     getResourceString >>=
         withItemBody (unixFilter "sass" ["-s", "--scss", "--style", "compressed"])
+
 
 postContext :: Context String
 postContext = mconcat
@@ -171,11 +205,13 @@ postContext = mconcat
     , defaultContext
     ]
 
+
 feedContext :: Context String
 feedContext = mconcat
     [ bodyField "description"
     , defaultContext
     ]
+
 
 feedConfig :: FeedConfiguration
 feedConfig = FeedConfiguration
@@ -185,3 +221,11 @@ feedConfig = FeedConfiguration
              , feedAuthorEmail = "gregor@uhlenheuer.net"
              , feedRoot = "http://uhlenheuer.net"
              }
+
+
+previewConfiguration :: Configuration
+previewConfiguration = defaultConfiguration
+    { destinationDirectory = "_preview/out"
+    , storeDirectory = "_preview/cache"
+    , tmpDirectory = "_preview/cache/tmp"
+    }
