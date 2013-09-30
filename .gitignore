@@ -2,5 +2,6 @@
 *.o
 .sass-cache/
 _cache/
+_preview/
 _site/
 hakyll
