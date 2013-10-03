@@ -114,7 +114,7 @@ You may find a few of my favourite plugins below:
 * [Command-T][9]: Fast and intuitive **file searching** plugin written by
   *Wincent Colaiuta* (requires *ruby* enabled vim)
 
-* [space][10]: "The Smart Space key for Vim" written by *Henrik Öhman*
+* [space][10]: "The Smart Space key for Vim" written by [Henrik Öhman][11]
 
 * Just to name a few other great plugins you may want to check out: FSwitch,
   Tagbar, NerdCommenter, NerdTree ...
@@ -136,3 +136,4 @@ You may find a few of my favourite plugins below:
 [8]: https://github.com/tpope/vim-fugitive
 [9]: https://wincent.com/products/command-t
 [10]: https://github.com/spiiph/vim-space
+[11]: https://github.com/spiiph
