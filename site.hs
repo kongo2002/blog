@@ -6,7 +6,7 @@ import           Control.Applicative             ( (<$>) )
 import           Control.Monad                   ( forM )
 
 import           Data.Monoid                     ( mconcat, mappend )
-import           Data.List                       ( foldl' )
+import           Data.List                       ( foldl', intersperse, nub )
 import           Data.Maybe                      ( catMaybes )
 import qualified Data.Text as T
 
@@ -158,9 +158,9 @@ tagsFieldCombWith getTags' comb key = field key $ \item -> do
         H.a ! A.href (toValue $ toUrl filePath) $ toHtml tag
 
 
-tagsFieldCustom :: String
-                -> Context a
-tagsFieldCustom = tagsFieldCombWith getTags (intersperseLast ", " " and ")
+tagsFieldCustom :: String -> Context a
+tagsFieldCustom =
+    tagsFieldCombWith getTags (intersperseLast ", " " and ")
 
 
 intersperseLast :: a -> a -> [a] -> [a]
@@ -178,6 +178,21 @@ tagIdentifier :: String -> Identifier
 tagIdentifier name =
     let sanitized = strRep [("#", "sharp"), (".", "dot")] name
     in  fromCapture "tags/*.html" sanitized
+
+
+keywordsField = field "keywords" $ \item -> do
+    tags <- getTags $ itemIdentifier item
+    return $ build tags
+  where
+    build = concat . intersperse "," . nub . (++ defKeywords)
+    defKeywords = [ "dotnet"
+                  , "programming"
+                  , ".NET"
+                  , "linux"
+                  , "C#"
+                  , "F#"
+                  , "functional"
+                  ]
 
 
 replace :: String -> (String, String) -> String
@@ -202,6 +217,7 @@ postContext = mconcat
     , dateField "shortdate" "%Y-%m-%d"
     , modificationTimeField "mtime" "%U"
     , tagsFieldCustom "posttags"
+    , keywordsField
     , defaultContext
     ]
 
