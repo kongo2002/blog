@@ -1,12 +1,15 @@
 all: rebuild publish
 
-rebuild:
+site: site.hs
+	ghc --make site.hs
+
+rebuild: site
 	./site rebuild
 
-build:
+build: site
 	./site build
 
-serve:
+serve: site
 	./site preview
 
 publish:
