@@ -6,7 +6,7 @@ import           Control.Applicative             ( (<$>) )
 import           Control.Monad                   ( forM )
 
 import           Data.Monoid                     ( mconcat, mappend )
-import           Data.List                       ( foldl', intersperse, nub )
+import           Data.List                       ( foldl', intercalate, nub )
 import           Data.Maybe                      ( catMaybes )
 import qualified Data.Text as T
 
@@ -69,14 +69,14 @@ main = do
                 >>= saveSnapshot "content"
                 >>= return . fmap demoteHeaders
                 >>= loadAndApplyTemplate "templates/post.html" postContext
-                >>= loadAndApplyTemplate "templates/default.html" defaultContext
+                >>= loadAndApplyTemplate "templates/default.html" baseContext
                 >>= relativizeUrls
 
         -- about and projects page
         match ("about.markdown" .||. "projects.markdown" ) $ do
             route $ setExtension "html"
             compile $ pandocCompiler
-                >>= loadAndApplyTemplate "templates/default.html" defaultContext
+                >>= loadAndApplyTemplate "templates/default.html" baseContext
                 >>= relativizeUrls
 
         -- tags
@@ -87,7 +87,7 @@ main = do
             compile $ do
                 let context = constField "title" title `mappend`
                               listField "posts" postContext (recentFirst =<< loadAll pattern) `mappend`
-                              defaultContext
+                              baseContext
                 makeItem ""
                     >>= loadAndApplyTemplate "templates/posts.html" context
                     >>= loadAndApplyTemplate "templates/default.html" context
@@ -98,7 +98,7 @@ main = do
             compile $ do
                 let context = constField "title" "Recent posts" `mappend`
                               listField "posts" postContext (fmap (take 10) . recentFirst =<< loadAll postsPattern) `mappend`
-                              defaultContext
+                              baseContext
                 makeItem ""
                     >>= loadAndApplyTemplate "templates/posts.html" context
                     >>= loadAndApplyTemplate "templates/default.html" context
@@ -110,7 +110,7 @@ main = do
                 cloud <- renderTagCloud' tags
                 let context = constField "title" "Tag cloud" `mappend`
                               constField "tagcloud" cloud `mappend`
-                              defaultContext
+                              baseContext
                 makeItem ""
                     >>= loadAndApplyTemplate "templates/tagcloud.html" context
                     >>= loadAndApplyTemplate "templates/default.html" context
@@ -129,7 +129,7 @@ main = do
             compile $ do
                 let context = constField "title" "All posts" `mappend`
                               listField "posts" postContext (recentFirst =<< loadAll postsPattern) `mappend`
-                              defaultContext
+                              baseContext
                 makeItem ""
                     >>= loadAndApplyTemplate "templates/posts.html" context
                     >>= loadAndApplyTemplate "templates/default.html" context
@@ -180,17 +180,21 @@ tagIdentifier name =
     in  fromCapture "tags/*.html" sanitized
 
 
+keywordsField :: Context a
 keywordsField = field "keywords" $ \item -> do
     tags <- getTags $ itemIdentifier item
     return $ build tags
   where
-    build = concat . intersperse "," . nub . (++ defKeywords)
+    build = intercalate "," . nub . (++ defKeywords)
     defKeywords = [ "dotnet"
                   , "programming"
+                  , "blog"
                   , ".NET"
                   , "linux"
                   , "C#"
+                  , "csharp"
                   , "F#"
+                  , "fsharp"
                   , "functional"
                   ]
 
@@ -211,14 +215,20 @@ sass =
         withItemBody (unixFilter "sass" ["-s", "--scss", "--style", "compressed"])
 
 
+baseContext :: Context String
+baseContext = mconcat
+    [ keywordsField
+    , defaultContext
+    ]
+
+
 postContext :: Context String
 postContext = mconcat
     [ dateField "date" "%B %e, %Y"
     , dateField "shortdate" "%Y-%m-%d"
     , modificationTimeField "mtime" "%U"
     , tagsFieldCustom "posttags"
-    , keywordsField
-    , defaultContext
+    , baseContext
     ]
 
 
