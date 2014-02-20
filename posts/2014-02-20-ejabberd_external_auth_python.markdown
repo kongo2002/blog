@@ -10,7 +10,7 @@ Once again I am fiddling with [ejabberd][ejabberd] - this time it is the
 **external authentication** method using a [python][python] script.
 
 
-## Authentication in ejabberd
+# Authentication in ejabberd
 
 The ejabberd XMPP server supports several authentication mechanisms
 out-of-the-box:
@@ -42,13 +42,13 @@ existing services. Say you already have a user administration interface in your
 business layer this may be your preferred way to reuse that logic.
 
 
-## Configuration
+# Configuration
 
 To use the external authentication script you have to edit the ejabberd
 configuration in your `ejabberd.cfg`.
 
 
-### General authentication
+## General authentication
 
 To enable external authentication for the whole ejabberd instance use something
 like this:
@@ -69,7 +69,7 @@ like this:
 ~~~
 
 
-### External authentication per virtual host
+## External authentication per virtual host
 
 Alternatively you may activate external authentication on a 'per virtual host'
 base:
@@ -90,13 +90,18 @@ base:
 ~~~
 
 
-## Python script
+# Python script
 
 In my case I chose [python][python] as my favorite scripting language for this
 task. [Python][python] is platform independent and comes with a lot of existing
 high-level libraries to make such a problem easy to implement.  You may find
 the script I came up with below or fetch the latest version from
 [github][github].
+
+This script redirects the authentication requests sent from the connected
+ejabberd instance to a configurable URL where the script expects a JSON API. You
+probably cannot use the script *as-it-is* but it may serve as a starting point
+to script your own one.
 
 ~~~ {.python}
 #!/usr/bin/env python
@@ -366,7 +371,7 @@ if __name__ == '__main__':
 ~~~
 
 
-## References
+# References
 
 - Python script on [github][github]
 - External authentication scripts on [ejabberd.im][extauth]
