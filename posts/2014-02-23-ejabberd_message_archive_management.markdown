@@ -103,6 +103,77 @@ archived message looks like inside the MongoDB collection:
 ~~~
 
 
+## Example archive query
+
+An examplary archive query conversion between client and server would look like
+the following. At first the client queries for its last two messages (limited by
+a [RSM][rsm] instruction):
+
+~~~ {.xml}
+<iq type='get'
+    id='query1'>
+  <query xmlns='urn:xmpp:mam:tmp'
+         queryid='x01'>
+    <set xmlns='http://jabber.org/protocol/rsm'>
+      <max>2</max>
+    </set>
+  </query>
+</iq>
+~~~
+
+The server responds with the two requested messages:
+
+~~~ {.xml}
+<message xmlns='jabber:client'
+         to='test@localhost/37367024071393189531836643'>
+  <result queryid='x01'
+          xmlns='urn:xmpp:mam:tmp'
+          id='52F7FC8DCDBB08255F000001'>
+    <forwarded xmlns='urn:xmpp:forward:0'>
+      <delay xmlns='urn:xmpp:delay'
+             stamp='2014-02-09T22:09:17Z'/>
+      <message from='test2@localhost/sendxmpp'
+               to='test@localhost'
+               xml:lang='en'
+               type='chat'>
+        <body>
+          foo
+        </body>
+      </message>
+    </forwarded>
+  </result>
+</message>
+<message xmlns='jabber:client'
+         to='test@localhost/37367024071393189531836643'>
+  <result queryid='x01'
+          xmlns='urn:xmpp:mam:tmp'
+          id='52F7FC9ECDBB08255F000003'>
+    <forwarded xmlns='urn:xmpp:forward:0'>
+      <delay xmlns='urn:xmpp:delay'
+             stamp='2014-02-09T22:09:34Z'/>
+      <message from='test2@localhost/sendxmpp'
+               to='test@localhost'
+               xml:lang='en'
+               type='chat'>
+        <body>
+          bar
+        </body>
+      </message>
+    </forwarded>
+  </result>
+</message>
+~~~
+
+Finally the server finishes the interaction with the closing `<id>` stanza:
+
+~~~ {.xml}
+<iq xmlns='jabber:client'
+    to='test@localhost/37367024071393189531836643'
+    id='query1'
+    type='result'/>
+~~~
+
+
 # Feedback
 
 As **mod-mam** is still in early beta phase any feedback, bug reports or
