@@ -11,12 +11,13 @@ with C, Python, C#, F# and vimscript to name just a few.
 
 ## Own projects
 
-- [SharpXml][13] - a fast, dependency-free .NET XML serializer written in F#
+- [SharpXml][13] - a fast, dependency-free .NET XML serializer written in
+  [F#][21]
 - [hatoml][18] - [Haskell][19] library for decoding/encoding [TOML][20]
 - [prost][15] - beer-counter like [android][16] app written in [scala][17]
 - [gskat][2] – a Gtk+ implementation of the popular german card game [Skat][14]
 - [automod-vim][3] – vim runtime files for [AutoMod][5] [^1]
-- [fsharp-vim][4] – vim runtime files for F#
+- [fsharp-vim][4] – vim runtime files for [F#][21]
 
 ## Contributions
 
@@ -47,5 +48,6 @@ with C, Python, C#, F# and vimscript to name just a few.
 [18]: https://github.com/kongo2002/hatoml
 [19]: http://haskell.org
 [20]: https://github.com/mojombo/toml
+[21]: http://fsharp.org/
 
 [^1]: AutoMod is a graphical simulation software used in manufacturing and distribution operations
