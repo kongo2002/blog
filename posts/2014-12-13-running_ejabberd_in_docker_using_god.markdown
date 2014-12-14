@@ -14,10 +14,12 @@ candidates I tried so far are [supervisord][supervisord] and [god][god].
 # god
 
 The latter is my preferred choice as it supports very nice process
-supervisioning using a linux kernel userspace interface. That way there is no
-need to poll the process if it is still running. Moreover [god][god] comes with
-a lot of reasonable default preferences resulting in very simple configuration
-files. A basic god configuration file might look something like this:
+supervisioning using a linux kernel userspace interface (you will need your
+kernel to be compiled with `CONFIG_CONNECTOR` for this mechanism to work). That
+way there is no need to poll the process if it is still running. Moreover
+[god][god] comes with a lot of reasonable default preferences resulting in very
+simple configuration files. A basic god configuration file might look something
+like this:
 
 ~~~ {.ruby}
 God.watch do |w|
