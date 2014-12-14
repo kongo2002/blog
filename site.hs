@@ -196,6 +196,8 @@ keywordsField = field "keywords" $ \item -> do
                   , "F#"
                   , "fsharp"
                   , "functional"
+                  , "haskell"
+                  , "erlang"
                   ]
 
 
