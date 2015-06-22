@@ -12,9 +12,9 @@ with C, Python, C#, F# and Haskell to name just a few.
 ## Own projects
 
 - [SharpXml][13] - a fast, dependency-free .NET XML serializer written in
+  [F#][21]
 - [nyx][24] - lean linux process monitoring that watches and controls your
   applications while keeping those in a healthy condition (written in C)
-  [F#][21]
 - [minfo][22] - [MongoDB][23] log file analyzer that can handle huge log files
   written in [Haskell][19]
 - [hatoml][18] - [Haskell][19] library for decoding/encoding [TOML][20]
