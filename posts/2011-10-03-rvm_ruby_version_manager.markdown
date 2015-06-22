@@ -62,4 +62,4 @@ $ gem install rails -v 1.2.3
 [1]: http://vagrantup.com
 [2]: http://beginrescueend.com
 [3]: http://beginrescueend.com/gemsets/basics/
-[4]: /2011-10-03-vagrant_virtualbox_console_wrapper/
+[4]: /posts/2011-10-03-vagrant_virtualbox_console_wrapper.html
