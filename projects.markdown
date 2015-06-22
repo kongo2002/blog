@@ -15,6 +15,8 @@ with C, Python, C#, F# and Haskell to name just a few.
   [F#][21]
 - [nyx][24] - lean linux process monitoring that watches and controls your
   applications while keeping those in a healthy condition (written in C)
+- [ejabberd-mod-mam][25] - [ejabberd][27] module that implements *Message
+  Archive Management* ([XEP-0313][26]) using a [MongoDB][23] backend
 - [minfo][22] - [MongoDB][23] log file analyzer that can handle huge log files
   written in [Haskell][19]
 - [hatoml][18] - [Haskell][19] library for decoding/encoding [TOML][20]
@@ -58,5 +60,8 @@ with C, Python, C#, F# and Haskell to name just a few.
 [22]: https://github.com/kongo2002/minfo
 [23]: https://www.mongodb.org/
 [24]: https://github.com/kongo2002/nyx
+[25]: https://github.com/kongo2002/ejabberd-mod-mam
+[26]: http://xmpp.org/extensions/xep-0313.html
+[27]: https://www.ejabberd.im/
 
 [^1]: AutoMod is a graphical simulation software used in manufacturing and distribution operations
