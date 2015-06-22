@@ -13,6 +13,8 @@ with C, Python, C#, F# and vimscript to name just a few.
 
 - [SharpXml][13] - a fast, dependency-free .NET XML serializer written in
   [F#][21]
+- [minfo][22] - [MongoDB][23] log file analyzer that can handle huge log files
+  written in [Haskell][19]
 - [hatoml][18] - [Haskell][19] library for decoding/encoding [TOML][20]
 - [prost][15] - beer-counter like [android][16] app written in [scala][17]
 - [gskat][2] – a Gtk+ implementation of the popular german card game [Skat][14]
@@ -49,5 +51,7 @@ with C, Python, C#, F# and vimscript to name just a few.
 [19]: http://haskell.org
 [20]: https://github.com/mojombo/toml
 [21]: http://fsharp.org/
+[22]: http://github.com/kongo2002/minfo
+[23]: https://www.mongodb.org/
 
 [^1]: AutoMod is a graphical simulation software used in manufacturing and distribution operations
