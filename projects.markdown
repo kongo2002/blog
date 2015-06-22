@@ -7,7 +7,7 @@ on [github][1].
 
 Concerning my choice of programming languages I am pretty much open-minded and
 always interested in learning new ones.  At the moment I am most comfortable
-with C, Python, C#, F# and vimscript to name just a few.
+with C, Python, C#, F# and Haskell to name just a few.
 
 ## Own projects
 
