@@ -12,6 +12,8 @@ with C, Python, C#, F# and Haskell to name just a few.
 ## Own projects
 
 - [SharpXml][13] - a fast, dependency-free .NET XML serializer written in
+- [nyx][24] - lean linux process monitoring that watches and controls your
+  applications while keeping those in a healthy condition (written in C)
   [F#][21]
 - [minfo][22] - [MongoDB][23] log file analyzer that can handle huge log files
   written in [Haskell][19]
@@ -23,17 +25,19 @@ with C, Python, C#, F# and Haskell to name just a few.
 
 ## Contributions
 
-- [luakit][6] – fast, small, webkit based browser framework extensible by [Lua][7]
+- [luakit][6] – fast, small, webkit based browser framework extensible by
+  [Lua][7]
 - [syntastic][9] – vim syntax checking plugin
-- [ServiceStack][12] - code-first, config/code-gen free, REST+SOAP web services for .NET/mono
+- [ServiceStack][12] - code-first, config/code-gen free, REST+SOAP web services
+  for .NET/mono
 - [uzbl][8] – web interface tools which adhere to the unix philosophy
 - [space.vim][10] – the smart space key plugin for vim
 - [vim][11] – one of the best editors on the planet
 
 [1]: https://github.com/kongo2002
 [2]: http://gskat.sourceforge.net
-[3]: http://github.com/kongo2002/vim-automod
-[4]: http://github.com/kongo2002/fsharp-vim
+[3]: https://github.com/kongo2002/vim-automod
+[4]: https://github.com/kongo2002/fsharp-vim
 [5]: http://www.appliedmaterials.com/services-software/library/applied-automod
 [6]: http://luakit.org
 [7]: http://www.lua.org
@@ -42,7 +46,7 @@ with C, Python, C#, F# and Haskell to name just a few.
 [10]: http://github.com/spiiph/vim-space
 [11]: http://www.vim.org
 [12]: http://github.com/ServiceStack/ServiceStack
-[13]: http://github.com/kongo2002/SharpXml
+[13]: https://github.com/kongo2002/SharpXml
 [14]: http://en.wikipedia.org/wiki/Skat_(card_game)
 [15]: https://github.com/kongo2002/prost
 [16]: http://android.com
@@ -51,7 +55,8 @@ with C, Python, C#, F# and Haskell to name just a few.
 [19]: http://haskell.org
 [20]: https://github.com/mojombo/toml
 [21]: http://fsharp.org/
-[22]: http://github.com/kongo2002/minfo
+[22]: https://github.com/kongo2002/minfo
 [23]: https://www.mongodb.org/
+[24]: https://github.com/kongo2002/nyx
 
 [^1]: AutoMod is a graphical simulation software used in manufacturing and distribution operations
