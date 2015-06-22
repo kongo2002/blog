@@ -1,7 +1,7 @@
 ---
 title: Hello, I'm Gregor!
 ---
-I'm a programmer from Dortmund, Germany.
+I'm a software developer from Dortmund, Germany.
 
 This is my personal blog and I here write about all things that I am interested
 in – like .NET software development, open-source projects and linux software.
